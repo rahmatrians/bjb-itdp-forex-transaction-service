@@ -1,13 +1,14 @@
 package com.bjb.bankmanagement.forextransaction.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor  // Constructor default untuk Hibernate
+@AllArgsConstructor // Constructor dengan semua field
 @Builder
 @Entity
 @Table(name = "user_accounts")
