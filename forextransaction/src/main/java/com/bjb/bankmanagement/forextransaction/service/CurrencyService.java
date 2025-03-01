@@ -17,7 +17,6 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -48,7 +47,7 @@ public class CurrencyService {
             response = GetCurrienciesDto.builder()
                     .currencies(data)
                     .rc(ResponseCode.SUCCESS.getCode())
-                    .rcDescription(ObjectUtils.isEmpty(data) ? "Data Not Found" : "Successfully")
+                    .rcDescription(ObjectUtils.isEmpty(data) ? "Data not found" : "Successfully")
                     .build();
         } catch (Exception e) {
             response = GetCurrienciesDto.builder()
@@ -65,7 +64,7 @@ public class CurrencyService {
     public AccountBalanceDto getAccountBalance(String accountNumber) {
         UserAccounts account = accountRepository.findByAccountNumber(accountNumber);
         if (account == null) {
-            return null; // Handle not found case appropriately
+            return null;
         }
         return AccountBalanceDto.builder()
                 .accountNumber(account.getAccountNumber())
@@ -74,16 +73,35 @@ public class CurrencyService {
                 .build();
     }
 
-    public List<TransactionHistoryDto> getTransactionHistory(String accountNumber) {
-        Integer userId = Integer.parseInt(accountNumber); // Jika accountNumber adalah user ID
-        List<TransactionHistories> transactions = transactionRepository.findByFromUserIdOrDestUserId(userId, userId);
+    public TransactionHistoryDto getTransactionHistory(String accountNumber) {
+        String errMessage = "";
+        List<TransactionHistories> transactions = new ArrayList<>();
+        TransactionHistoryDto response = new TransactionHistoryDto();
 
-        return transactions.stream().map(tx -> TransactionHistoryDto.builder()
-                .transactionId(String.valueOf(tx.getId()))
-                .accountNumber(tx.getFromUserId().toString() + " -> " + tx.getDestUserId().toString())
-                .amount(tx.getTransactionAmount())
-                .transactionType(tx.getFromCurrency() + " to " + tx.getDestCurrency())
-                .transactionDate(tx.getTransactionDate().toString())
-                .build()).collect(Collectors.toList());
+        try {
+            UserAccounts userAccount = accountRepository.findByAccountNumber(accountNumber);
+
+            if (ObjectUtils.isEmpty(userAccount)) {
+                errMessage = "User account doesn't found";
+                throw new Exception(errMessage);
+            }
+
+            transactions = transactionRepository.findByFromUserAccountId(userAccount.getId());
+
+            response = TransactionHistoryDto.builder()
+                    .transactionHistories(transactions)
+                    .rc(ResponseCode.SUCCESS.getCode())
+                    .rcDescription(ObjectUtils.isEmpty(transactions) ? "Data not found" : "Successfully")
+                    .build();
+        } catch (Exception e) {
+            response = TransactionHistoryDto.builder()
+                    .transactionHistories(transactions)
+                    .rc(ResponseCode.GENERAL_ERROR.getCode())
+                    .rcDescription("General Error")
+                    .build();
+            log.error("Error : {}" + e.getMessage(), e);
+        }
+
+        return response;
     }
 }

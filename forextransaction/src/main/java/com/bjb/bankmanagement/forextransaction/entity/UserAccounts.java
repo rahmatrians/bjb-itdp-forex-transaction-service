@@ -18,7 +18,7 @@ public class UserAccounts {
     private Long id;
 
     @Column(name = "user_profile_id", nullable = false)
-    private Integer userProfileId;
+    private Long userProfileId;
 
     @Column(name = "currency_code", nullable = false)
     private String currencyCode;

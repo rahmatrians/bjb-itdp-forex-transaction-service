@@ -3,11 +3,16 @@ package com.bjb.bankmanagement.forextransaction.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "transaction_histories")
@@ -16,17 +21,20 @@ public class TransactionHistories {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "from_user_id", nullable = false)
-    private Integer fromUserId;
+    @Column(name = "from_user_account_id", nullable = false)
+    private Long fromUserAccountId;
 
-    @Column(name = "dest_user_id", nullable = false)
-    private Integer destUserId;
+    @Column(name = "dest_user_account_id", nullable = false)
+    private Long destUserAccountId;
 
     @Column(name = "transaction_date", nullable = false)
     private LocalDateTime transactionDate;
 
-    @Column(name = "transaction_amount", nullable = false)
-    private Double transactionAmount;
+    @Column(name = "from_trans_amount", nullable = false)
+    private Double fromTransAmount;
+
+    @Column(name = "dest_trans_amount", nullable = false)
+    private Double destTransAmount;
 
     @Column(name = "from_currency", nullable = false)
     private String fromCurrency;

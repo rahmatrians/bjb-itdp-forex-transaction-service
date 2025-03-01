@@ -50,9 +50,18 @@ public class MainController {
     }
 
     @GetMapping("/history/{accountNumber}")
-    public ResponseEntity<List<TransactionHistoryDto>> getTransactionHistory(@PathVariable String accountNumber) {
-        List<TransactionHistoryDto> history = currencyService.getTransactionHistory(accountNumber);
-        return ResponseEntity.ok(history);
+    public ResponseEntity<TransactionHistoryDto> getTransactionHistory(@PathVariable String accountNumber) {
+        TransactionHistoryDto response = currencyService.getTransactionHistory(accountNumber);
+
+        if (response.getRc().equals(ResponseCode.SUCCESS.getCode())) {
+            return ResponseEntity
+                    .status(ResponseStatus.OK.getStatus())
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(ResponseStatus.NOT_FOUND.getStatus())
+                    .body(response);
+        }
     }
 
     @PostMapping("/forexrate")

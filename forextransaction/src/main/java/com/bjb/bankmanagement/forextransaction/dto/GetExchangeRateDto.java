@@ -1,6 +1,5 @@
 package com.bjb.bankmanagement.forextransaction.dto;
 
-import com.bjb.bankmanagement.forextransaction.entity.ExchangeRates;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,7 @@ import java.io.Serializable;
 public class GetExchangeRateDto implements Serializable {
     private static final long serialVersionUID = 7320128280278698052L;
 
-    private ExchangeRates exchangeRates;
+    private ExchangeRateCustom exchangeRates;
     private Double resultAmount;
 
     private String rc;

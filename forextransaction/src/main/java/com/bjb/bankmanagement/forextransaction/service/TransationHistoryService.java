@@ -76,6 +76,11 @@ public class TransationHistoryService {
                 throw new Exception(errMessage);
             }
 
+            if (fromUserAccount.getBalance() < request.getAmount()) {
+                errMessage = "Your balance is not enough";
+                throw new Exception(errMessage);
+            }
+
             ReqExchangeRateDto reqExchangeRateAmount = ReqExchangeRateDto.builder()
                     .fromCurrencyCode(fromUserAccount.getCurrencyCode())
                     .toCurrencyCode(toUserAccount.getCurrencyCode())
@@ -86,9 +91,10 @@ public class TransationHistoryService {
 
             if (ResponseCode.SUCCESS.getCode().equals(exchangeRateAmount.getRc())) {
                 execute = TransactionHistories.builder()
-                        .transactionAmount(exchangeRateAmount.getResultAmount())
-                        .fromUserId(fromUserAccount.getUserProfileId())
-                        .destUserId(toUserAccount.getUserProfileId())
+                        .fromTransAmount(request.getAmount())
+                        .destTransAmount(exchangeRateAmount.getResultAmount())
+                        .fromUserAccountId(fromUserAccount.getId())
+                        .destUserAccountId(toUserAccount.getId())
                         .fromCurrency(fromUserAccount.getCurrencyCode())
                         .destCurrency(toUserAccount.getCurrencyCode())
                         .exchangeRate(exchangeRateAmount.getExchangeRates().getExchangeRate())
