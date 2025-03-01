@@ -1,11 +1,12 @@
 package com.bjb.bankmanagement.forextransaction.entity;
-import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
 
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Table(name = "currencies")
 public class Currencies {
@@ -14,10 +15,10 @@ public class Currencies {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @Column(name = "created_at")

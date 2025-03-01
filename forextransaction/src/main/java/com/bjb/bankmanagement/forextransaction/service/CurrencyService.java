@@ -24,10 +24,10 @@ public class CurrencyService {
         this.transactionRepository = transactionRepository;
     }
 
-    public List<Currencies> getAllCurrencies() {
-        return currencyRepository.findAll();
+    // Method untuk mencari currency berdasarkan kode
+    public List<Currencies> findByCode(String code) {
+        return currencyRepository.findByCode(code);
     }
-
     public AccountBalanceDto getAccountBalance(String accountNumber) {
         UserAccounts account = accountRepository.findByAccountNumber(accountNumber);
         if (account == null) {

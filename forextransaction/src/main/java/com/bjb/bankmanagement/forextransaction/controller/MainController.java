@@ -7,6 +7,8 @@ import com.bjb.bankmanagement.forextransaction.dto.GetCurrienciesDto;
 import com.bjb.bankmanagement.forextransaction.entity.Currencies;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.Collections;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,28 +24,29 @@ public class MainController {
     }
 
     @GetMapping("/currencies/{code}")
-    public ResponseEntity<GetCurrienciesDto> getUser(@PathVariable String code) {
-        List<Currencies> tempList = new ArrayList<>();
+    public ResponseEntity<GetCurrienciesDto> getCurrencies(@PathVariable String code) {
+        List<Currencies> currencies = currencyService.findByCode(code);
 
-        tempList.add(Currencies.builder()
-                        .id(1L)
-                        .code("IDR")
-                        .description("Indonesia Rupiah")
-                        .createdAt("12-12-2012")
-                .build());
-
-        GetCurrienciesDto response =  GetCurrienciesDto.builder()
-                .currencies(tempList)
-                .rc("0000")
-                .rcDescription("Successfully")
-                .build();
-
-        if (response.getRc().equals("0000")) {
+        if (!currencies.isEmpty()) {
+            GetCurrienciesDto response = GetCurrienciesDto.builder()
+                    .currencies(currencies)
+                    .rc("0000")
+                    .rcDescription("Successfully")
+                    .build();
             return ResponseEntity.status(200).body(response);
         } else {
+            GetCurrienciesDto response = GetCurrienciesDto.builder()
+                    .currencies(Collections.emptyList())
+                    .rc("404")
+                    .rcDescription("Currency not found")
+                    .build();
             return ResponseEntity.status(404).body(response);
         }
-    }
+
+
+
+
+}
     @GetMapping("/balances/{accountNumber}")
     public ResponseEntity<AccountBalanceDto> getBalance(@PathVariable String accountNumber) {
         AccountBalanceDto balance = currencyService.getAccountBalance(accountNumber);
