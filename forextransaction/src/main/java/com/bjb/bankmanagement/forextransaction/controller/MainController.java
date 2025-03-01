@@ -1,10 +1,12 @@
 package com.bjb.bankmanagement.forextransaction.controller;
 
-import com.bjb.bankmanagement.forextransaction.service.CurrencyService;
+
 import com.bjb.bankmanagement.forextransaction.dto.AccountBalanceDto;
-import com.bjb.bankmanagement.forextransaction.dto.TransactionHistoryDto;
 import com.bjb.bankmanagement.forextransaction.dto.GetCurrienciesDto;
+import com.bjb.bankmanagement.forextransaction.dto.TransactionHistoryDto;
 import com.bjb.bankmanagement.forextransaction.entity.Currencies;
+import com.bjb.bankmanagement.forextransaction.service.CurrencyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,28 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class MainController {
-    private final CurrencyService currencyService;
+    @Autowired
+    CurrencyService currencyService;
 
-    public MainController(CurrencyService currencyService) {
-        this.currencyService = currencyService;
-    }
 
-    @GetMapping("/currencies/{code}")
-    public ResponseEntity<GetCurrienciesDto> getUser(@PathVariable String code) {
-        List<Currencies> tempList = new ArrayList<>();
 
-        tempList.add(Currencies.builder()
-                        .id(1L)
-                        .code("IDR")
-                        .description("Indonesia Rupiah")
-                        .createdAt("12-12-2012")
-                .build());
-
-        GetCurrienciesDto response =  GetCurrienciesDto.builder()
-                .currencies(tempList)
-                .rc("0000")
-                .rcDescription("Successfully")
-                .build();
+    @GetMapping("/currencies")
+    public ResponseEntity<GetCurrienciesDto> getCurrencies(@RequestParam(value = "code", required = false) String code) {
+        GetCurrienciesDto response = currencyService.getAllCurrencies(code);
 
         if (response.getRc().equals("0000")) {
             return ResponseEntity.status(200).body(response);
@@ -44,6 +32,7 @@ public class MainController {
             return ResponseEntity.status(404).body(response);
         }
     }
+
     @GetMapping("/balances/{accountNumber}")
     public ResponseEntity<AccountBalanceDto> getBalance(@PathVariable String accountNumber) {
         AccountBalanceDto balance = currencyService.getAccountBalance(accountNumber);

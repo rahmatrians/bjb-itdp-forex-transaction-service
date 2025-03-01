@@ -1,5 +1,6 @@
 package com.bjb.bankmanagement.forextransaction.service;
 
+import com.bjb.bankmanagement.forextransaction.dto.GetCurrienciesDto;
 import com.bjb.bankmanagement.forextransaction.dto.AccountBalanceDto;
 import com.bjb.bankmanagement.forextransaction.dto.TransactionHistoryDto;
 import com.bjb.bankmanagement.forextransaction.entity.Currencies;
@@ -8,24 +9,56 @@ import com.bjb.bankmanagement.forextransaction.entity.TransactionHistories;
 import com.bjb.bankmanagement.forextransaction.repository.CurrencyRepository;
 import com.bjb.bankmanagement.forextransaction.repository.AccountRepository;
 import com.bjb.bankmanagement.forextransaction.repository.TransactionRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class CurrencyService {
-    private final CurrencyRepository currencyRepository;
-    private final AccountRepository accountRepository;
-    private final TransactionRepository transactionRepository;
 
-    public CurrencyService(CurrencyRepository currencyRepository, AccountRepository accountRepository, TransactionRepository transactionRepository) {
-        this.currencyRepository = currencyRepository;
-        this.accountRepository = accountRepository;
-        this.transactionRepository = transactionRepository;
-    }
+    @Autowired
+    CurrencyRepository currencyRepository;
 
-    public List<Currencies> getAllCurrencies() {
-        return currencyRepository.findAll();
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
+
+
+    public GetCurrienciesDto getAllCurrencies(String code) {
+        List<Currencies> data = new ArrayList<>();
+        GetCurrienciesDto response = new GetCurrienciesDto();
+
+        try {
+            if (ObjectUtils.isEmpty(code)) {
+                data = currencyRepository.findAll();
+            } else {
+                data = currencyRepository.findAllByCode(code);
+            }
+
+            response = GetCurrienciesDto.builder()
+                    .currencies(data)
+                    .rc("0000")
+                    .rcDescription(ObjectUtils.isEmpty(data) ? "Data Not Found" : "Successfully")
+                    .build();
+        } catch (Exception e) {
+            response = GetCurrienciesDto.builder()
+                    .currencies(data)
+                    .rc("0005")
+                    .rcDescription("General Error")
+                    .build();
+            log.error("Error : {}" + e.getMessage(), e);
+        }
+
+        return response;
     }
 
     public AccountBalanceDto getAccountBalance(String accountNumber) {
@@ -52,5 +85,4 @@ public class CurrencyService {
                 .transactionDate(tx.getTransactionDate().toString())
                 .build()).collect(Collectors.toList());
     }
-
 }
