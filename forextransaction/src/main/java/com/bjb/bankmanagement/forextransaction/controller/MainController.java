@@ -1,16 +1,13 @@
 package com.bjb.bankmanagement.forextransaction.controller;
 
 
-import com.bjb.bankmanagement.forextransaction.dto.AccountBalanceDto;
-import com.bjb.bankmanagement.forextransaction.dto.GetCurrienciesDto;
-import com.bjb.bankmanagement.forextransaction.dto.TransactionHistoryDto;
-import com.bjb.bankmanagement.forextransaction.entity.Currencies;
+import com.bjb.bankmanagement.forextransaction.dto.*;
 import com.bjb.bankmanagement.forextransaction.service.CurrencyService;
+import com.bjb.bankmanagement.forextransaction.service.ExchangeRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,6 +16,9 @@ import java.util.List;
 public class MainController {
     @Autowired
     CurrencyService currencyService;
+
+    @Autowired
+    ExchangeRateService exchangeRateService;
 
 
 
@@ -43,5 +43,16 @@ public class MainController {
     public ResponseEntity<List<TransactionHistoryDto>> getTransactionHistory(@PathVariable String accountNumber) {
         List<TransactionHistoryDto> history = currencyService.getTransactionHistory(accountNumber);
         return ResponseEntity.ok(history);
+    }
+
+    @PostMapping("/forexrate")
+    public ResponseEntity<GetExchangeRateDto> getCurrencies(@RequestBody ReqExchangeRateDto request) {
+        GetExchangeRateDto response = exchangeRateService.getExchangeRates(request);
+
+        if (response.getRc().equals("0000")) {
+            return ResponseEntity.status(200).body(response);
+        } else {
+            return ResponseEntity.status(404).body(response);
+        }
     }
 }
