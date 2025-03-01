@@ -18,5 +18,6 @@ public class ReqTransferDto implements Serializable {
     private String fromAccountNumber;
     private String toAccountNumber;
     private Double amount;
+    private String pin;
 
 }

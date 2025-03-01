@@ -7,8 +7,10 @@ import com.bjb.bankmanagement.forextransaction.dto.ReqExchangeRateDto;
 import com.bjb.bankmanagement.forextransaction.dto.ReqTransferDto;
 import com.bjb.bankmanagement.forextransaction.entity.TransactionHistories;
 import com.bjb.bankmanagement.forextransaction.entity.UserAccounts;
+import com.bjb.bankmanagement.forextransaction.entity.UserAuthentications;
 import com.bjb.bankmanagement.forextransaction.repository.AccountRepository;
 import com.bjb.bankmanagement.forextransaction.repository.TransactionRepository;
+import com.bjb.bankmanagement.forextransaction.repository.UserAuthenticationRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class TransationHistoryService {
     @Autowired
     ExchangeRateService exchangeRateService;
 
+    @Autowired
+    UserAuthenticationRepository userAuthenticationRepository;
+
 
     @Transactional
     public GetTransferDto executeTransfer(ReqTransferDto request) {
@@ -56,6 +61,18 @@ public class TransationHistoryService {
                 throw new Exception(errMessage);
             } else if (ObjectUtils.isEmpty(toUserAccount)) {
                 errMessage = "User account benefiiary doesn't found";
+                throw new Exception(errMessage);
+            }
+
+            UserAuthentications userAuth = userAuthenticationRepository.findByUserProfileId(fromUserAccount.getUserProfileId());
+
+            if (ObjectUtils.isEmpty(request.getPin())) {
+                errMessage = "PIN is empty";
+                throw new Exception(errMessage);
+            }
+
+            if (!request.getPin().equals(userAuth.getPin())) {
+                errMessage = "PIN is wrong";
                 throw new Exception(errMessage);
             }
 
