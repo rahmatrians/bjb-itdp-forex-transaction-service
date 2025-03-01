@@ -82,7 +82,10 @@ public class TransationHistoryService {
                 transactionRepository.save(execute);
 
                 fromUserAccount.setBalance(fromUserAccount.getBalance() - request.getAmount());
+                fromUserAccount.setUpdatedAt(LocalDateTime.now());
+
                 toUserAccount.setBalance(toUserAccount.getBalance() + exchangeRateAmount.getResultAmount());
+                toUserAccount.setUpdatedAt(LocalDateTime.now());
 
                 List<UserAccounts> users = new ArrayList<>();
                 users.add(fromUserAccount);
