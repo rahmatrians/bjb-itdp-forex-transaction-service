@@ -76,6 +76,7 @@ public class TransationHistoryService {
                         .destCurrency(toUserAccount.getCurrencyCode())
                         .exchangeRate(exchangeRateAmount.getExchangeRates().getExchangeRate())
                         .transactionDate(LocalDateTime.now())
+                        .createdAt(LocalDateTime.now())
                         .build();
 
                 transactionRepository.save(execute);

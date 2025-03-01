@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Data
 @Builder
@@ -38,7 +37,7 @@ public class TransactionHistories {
     @Column(name = "exchange_rate", nullable = false)
     private Double exchangeRate;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
