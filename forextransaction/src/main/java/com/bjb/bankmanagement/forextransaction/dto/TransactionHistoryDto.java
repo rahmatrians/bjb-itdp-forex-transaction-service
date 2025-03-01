@@ -11,7 +11,7 @@ import java.math.BigDecimal;
     public class TransactionHistoryDto {
         private String transactionId;
         private String accountNumber;
-        private BigDecimal amount;
+        private Double amount;
         private String transactionType;
         private String transactionDate;
     }

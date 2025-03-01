@@ -1,5 +1,6 @@
 package com.bjb.bankmanagement.forextransaction.service;
 
+import com.bjb.bankmanagement.forextransaction.constant.ResponseCode;
 import com.bjb.bankmanagement.forextransaction.dto.GetCurrienciesDto;
 import com.bjb.bankmanagement.forextransaction.dto.AccountBalanceDto;
 import com.bjb.bankmanagement.forextransaction.dto.TransactionHistoryDto;
@@ -46,13 +47,13 @@ public class CurrencyService {
 
             response = GetCurrienciesDto.builder()
                     .currencies(data)
-                    .rc("0000")
+                    .rc(ResponseCode.SUCCESS.getCode())
                     .rcDescription(ObjectUtils.isEmpty(data) ? "Data Not Found" : "Successfully")
                     .build();
         } catch (Exception e) {
             response = GetCurrienciesDto.builder()
                     .currencies(data)
-                    .rc("0005")
+                    .rc(ResponseCode.GENERAL_ERROR.getCode())
                     .rcDescription("General Error")
                     .build();
             log.error("Error : {}" + e.getMessage(), e);

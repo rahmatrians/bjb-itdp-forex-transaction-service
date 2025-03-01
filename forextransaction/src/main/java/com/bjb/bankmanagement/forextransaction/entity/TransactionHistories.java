@@ -27,7 +27,7 @@ public class TransactionHistories {
     private LocalDateTime transactionDate;
 
     @Column(name = "transaction_amount", nullable = false)
-    private BigDecimal transactionAmount;
+    private Double transactionAmount;
 
     @Column(name = "from_currency", nullable = false)
     private String fromCurrency;
@@ -38,9 +38,9 @@ public class TransactionHistories {
     @Column(name = "exchange_rate", nullable = false)
     private Double exchangeRate;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

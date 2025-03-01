@@ -12,11 +12,11 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReqExchangeRateDto implements Serializable {
-    private static final long serialVersionUID = 2936771211183019956L;
+public class ReqTransferDto implements Serializable {
+    private static final long serialVersionUID = -9017515362184597881L;
 
-    private String fromCurrencyCode;
-    private String toCurrencyCode;
+    private String fromAccountNumber;
+    private String toAccountNumber;
     private Double amount;
 
 }

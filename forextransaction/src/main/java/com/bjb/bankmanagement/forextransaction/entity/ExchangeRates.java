@@ -27,7 +27,7 @@ public class ExchangeRates {
     private String toCurrencyCode;
 
     @Column(name = "exchange_rate")
-    private BigDecimal exchangeRate;
+    private Double exchangeRate;
 
     @Column(name = "rate_date")
     private String rateDate;
