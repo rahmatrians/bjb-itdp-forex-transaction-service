@@ -27,7 +27,7 @@ public class UserAccounts {
     private String accountNumber;
 
     @Column(name = "balance", nullable = false)
-    private BigDecimal balance;
+    private Double balance;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

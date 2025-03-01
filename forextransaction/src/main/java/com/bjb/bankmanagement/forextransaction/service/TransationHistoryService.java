@@ -5,19 +5,19 @@ import com.bjb.bankmanagement.forextransaction.dto.GetExchangeRateDto;
 import com.bjb.bankmanagement.forextransaction.dto.GetTransferDto;
 import com.bjb.bankmanagement.forextransaction.dto.ReqExchangeRateDto;
 import com.bjb.bankmanagement.forextransaction.dto.ReqTransferDto;
-import com.bjb.bankmanagement.forextransaction.entity.ExchangeRates;
 import com.bjb.bankmanagement.forextransaction.entity.TransactionHistories;
 import com.bjb.bankmanagement.forextransaction.entity.UserAccounts;
 import com.bjb.bankmanagement.forextransaction.repository.AccountRepository;
-import com.bjb.bankmanagement.forextransaction.repository.ExchangeRateRepository;
 import com.bjb.bankmanagement.forextransaction.repository.TransactionRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Slf4j
@@ -34,7 +34,7 @@ public class TransationHistoryService {
     ExchangeRateService exchangeRateService;
 
 
-
+    @Transactional
     public GetTransferDto executeTransfer(ReqTransferDto request) {
         String errMessage = "";
         GetExchangeRateDto exchangeRateAmount = new GetExchangeRateDto();
@@ -79,6 +79,16 @@ public class TransationHistoryService {
                         .build();
 
                 transactionRepository.save(execute);
+
+                fromUserAccount.setBalance(fromUserAccount.getBalance() - request.getAmount());
+                toUserAccount.setBalance(fromUserAccount.getBalance() + request.getAmount());
+
+                List<UserAccounts> users = new ArrayList<>();
+                users.add(fromUserAccount);
+                users.add(toUserAccount);
+
+                accountRepository.saveAll(users);
+
             } else {
                 errMessage = "Error when getting exchange rate data";
                 throw new Exception(errMessage);
