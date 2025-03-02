@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import java.time.LocalDate;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -53,7 +54,6 @@ public class UserProfiles {
     @Column(name = "identity_type", nullable = false)
     private String identityType;
 
-    @Column(name = "identityNumber", nullable = false)
     private String identityNumber;
 
     @Column(name = "phone_number", nullable = false)
