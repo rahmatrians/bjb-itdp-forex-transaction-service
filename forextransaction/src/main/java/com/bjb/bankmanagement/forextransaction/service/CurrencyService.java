@@ -101,7 +101,7 @@ public class CurrencyService {
             response = AccountBalanceDto.builder()
                     .userAccount(account)
                     .rc(ResponseCode.SUCCESS.getCode())
-                    .rcDescription(ObjectUtils.isEmpty(account) ? "Data not found" : "Successfully")
+                    .rcDescription(ObjectUtils.isEmpty(account) ? "Account not found" : "Successfully")
                     .build();
         } catch (Exception e) {
             response = AccountBalanceDto.builder()
