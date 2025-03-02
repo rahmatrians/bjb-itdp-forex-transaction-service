@@ -44,10 +44,34 @@ public class MainController {
         }
     }
 
-    @GetMapping("/balances/{accountNumber}")
-    public ResponseEntity<AccountBalanceDto> getBalance(@PathVariable String accountNumber) {
-        AccountBalanceDto balance = currencyService.getAccountBalance(accountNumber);
-        return ResponseEntity.ok(balance);
+    @GetMapping("/balances/{userProfileId}")
+    public ResponseEntity<GetListAccountBalanceDto> getBalance(@PathVariable Long userProfileId) {
+        GetListAccountBalanceDto response = currencyService.getAccountBalance(userProfileId);
+
+        if (response.getRc().equals(ResponseCode.SUCCESS.getCode())) {
+            return ResponseEntity
+                    .status(ResponseStatus.OK.getStatus())
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(ResponseStatus.NOT_FOUND.getStatus())
+                    .body(response);
+        }
+    }
+
+    @GetMapping("/balances/{userProfileId}/{accountNumber}")
+    public ResponseEntity<AccountBalanceDto> getBalance(@PathVariable Long userProfileId, @PathVariable String accountNumber) {
+        AccountBalanceDto response = currencyService.getAccountBalance(userProfileId, accountNumber);
+
+        if (response.getRc().equals(ResponseCode.SUCCESS.getCode())) {
+            return ResponseEntity
+                    .status(ResponseStatus.OK.getStatus())
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(ResponseStatus.NOT_FOUND.getStatus())
+                    .body(response);
+        }
     }
 
     @GetMapping("/history/{accountNumber}")

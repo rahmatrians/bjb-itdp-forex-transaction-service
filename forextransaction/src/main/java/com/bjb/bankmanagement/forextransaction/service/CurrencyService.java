@@ -1,10 +1,7 @@
 package com.bjb.bankmanagement.forextransaction.service;
 
 import com.bjb.bankmanagement.forextransaction.constant.ResponseCode;
-import com.bjb.bankmanagement.forextransaction.dto.GetCurrienciesDto;
-import com.bjb.bankmanagement.forextransaction.dto.AccountBalanceDto;
-import com.bjb.bankmanagement.forextransaction.dto.TransactionHistoryDto;
-import com.bjb.bankmanagement.forextransaction.dto.UpdateCurrencyDto;
+import com.bjb.bankmanagement.forextransaction.dto.*;
 import com.bjb.bankmanagement.forextransaction.entity.Currencies;
 import com.bjb.bankmanagement.forextransaction.entity.UserAccounts;
 import com.bjb.bankmanagement.forextransaction.entity.TransactionHistories;
@@ -17,15 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -72,16 +66,53 @@ public class CurrencyService {
         return response;
     }
 
-    public AccountBalanceDto getAccountBalance(String accountNumber) {
-        UserAccounts account = accountRepository.findByAccountNumber(accountNumber);
-        if (account == null) {
-            return null;
+    public GetListAccountBalanceDto getAccountBalance(Long userProfileId) {
+        List<UserAccounts> accounts = new ArrayList<>();
+        GetListAccountBalanceDto response;
+
+        try {
+            accounts = accountRepository.findByUserProfileId(userProfileId);
+
+            response = GetListAccountBalanceDto.builder()
+                    .userAccounts(accounts)
+                    .rc(ResponseCode.SUCCESS.getCode())
+                    .rcDescription(ObjectUtils.isEmpty(accounts) ? "Data not found" : "Successfully")
+                    .build();
+        } catch (Exception e) {
+            response = GetListAccountBalanceDto.builder()
+                    .userAccounts(accounts)
+                    .rc(ResponseCode.GENERAL_ERROR.getCode())
+                    .rcDescription("General Error")
+                    .build();
+            log.error("Error : {}" + e.getMessage(), e);
         }
-        return AccountBalanceDto.builder()
-                .accountNumber(account.getAccountNumber())
-                .balance(account.getBalance())
-                .currency(account.getCurrencyCode())
-                .build();
+
+        return response;
+    }
+
+
+    public AccountBalanceDto getAccountBalance(Long userProfileId, String accountNumber) {
+        UserAccounts account = new UserAccounts();
+        AccountBalanceDto response;
+
+        try {
+            account = accountRepository.findByUserProfileIdAndAccountNumber(userProfileId, accountNumber);
+
+            response = AccountBalanceDto.builder()
+                    .userAccount(account)
+                    .rc(ResponseCode.SUCCESS.getCode())
+                    .rcDescription(ObjectUtils.isEmpty(account) ? "Data not found" : "Successfully")
+                    .build();
+        } catch (Exception e) {
+            response = AccountBalanceDto.builder()
+                    .userAccount(account)
+                    .rc(ResponseCode.GENERAL_ERROR.getCode())
+                    .rcDescription("General Error")
+                    .build();
+            log.error("Error : {}" + e.getMessage(), e);
+        }
+
+        return response;
     }
 
     public TransactionHistoryDto getTransactionHistory(String accountNumber) {
