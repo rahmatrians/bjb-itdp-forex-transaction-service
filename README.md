@@ -19,7 +19,7 @@ List API Documentation : ![a5d4b43a-96bc-4514-b9dd-7da0f1280192](https://github.
 Detail API Documentation :
 ![aac77d29-6de6-4c35-bcfc-c9a98130985c](https://github.com/user-attachments/assets/aac77d29-6de6-4c35-bcfc-c9a98130985c)
 
-```http
+```
 1. POST /create/user
 ```
 3. PUT /update/user
