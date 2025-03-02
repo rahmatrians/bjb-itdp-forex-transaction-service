@@ -75,6 +75,8 @@ Detail API Documentation :
 
 ![image](https://github.com/user-attachments/assets/8bb44a46-e2a2-4ed3-aeef-f3f757c2074f)
 
+![image](https://github.com/user-attachments/assets/f4b00e90-112c-4ea6-aaf9-c455498aa7cc)
+
 
 
 ## Testing Documentation
