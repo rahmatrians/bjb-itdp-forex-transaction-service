@@ -1,11 +1,9 @@
 package com.bjb.bankmanagement.forextransaction.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -16,18 +14,18 @@ import lombok.NoArgsConstructor;
 public class Currencies {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true, nullable = false)
     private String code;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "created_at")
-    private String createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt; // Ganti dari String ke LocalDateTime
 
     @Column(name = "updated_at")
-    private String updatedAt;
+    private LocalDateTime updatedAt; // Ganti dari String ke LocalDateTime
 }

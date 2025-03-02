@@ -20,7 +20,7 @@ public class UpdateUserRequestDto {
     private String password;
     private String pin;
 
-    // Tambahkan response fields
+
     private String rc;
     private String message;
 

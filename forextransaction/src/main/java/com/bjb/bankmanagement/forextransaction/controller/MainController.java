@@ -4,6 +4,7 @@ package com.bjb.bankmanagement.forextransaction.controller;
 import com.bjb.bankmanagement.forextransaction.constant.ResponseCode;
 import com.bjb.bankmanagement.forextransaction.constant.ResponseStatus;
 import com.bjb.bankmanagement.forextransaction.dto.*;
+import com.bjb.bankmanagement.forextransaction.entity.Currencies;
 import com.bjb.bankmanagement.forextransaction.service.CurrencyService;
 import com.bjb.bankmanagement.forextransaction.service.ExchangeRateService;
 import com.bjb.bankmanagement.forextransaction.service.TransationHistoryService;
@@ -93,4 +94,20 @@ public class MainController {
                     .body(response);
         }
     }
+    @PutMapping("/update/currency")
+    public ResponseEntity<UpdateCurrencyDto> updateCurrency(@RequestBody UpdateCurrencyDto request) {
+        UpdateCurrencyDto response = currencyService.updateCurrency(request);
+
+        if (response.getRc().equals(ResponseCode.SUCCESS.getCode())) {
+            return ResponseEntity
+                    .status(ResponseStatus.OK.getStatus())
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(ResponseStatus.NOT_FOUND.getStatus())
+                    .body(response);
+        }
+    }
+
+
 }
