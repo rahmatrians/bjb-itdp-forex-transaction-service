@@ -22,14 +22,38 @@ Detail API Documentation :
 ```
 1. POST /create/user
 ```
-3. PUT /update/user
+
+```
+2. PUT /update/user
+```
+
+```
 3, GET /history/{accountNumber}
+```
+
+```
 4. GET /currencies
+```
+
+```
 5. GET /balances/{userProfileId}
+```
+
+```
 6. GET /balances/{userProfileId}/{accountNumber}
+```
+
+```
 7. POST /transfer/execute
+```
+
+```
 8. POST /forexrate
+```
+
+```
 9. PUT /update/currency
+```
 
 
 ## External API Reference (Foreign Exchange Rate)
@@ -43,7 +67,6 @@ Detail API Documentation :
 ## Testing Documentation
 
 Testing documentation can see in this link : https://docs.google.com/spreadsheets/d/1InM8mSTJg7JvROlWrrI2VejrxDKQBknSerZmKWa3410/edit?gid=0#gid=0
-##
 ##
 ![95bbff42-a429-49a1-a3dc-da3d6b468df9](https://github.com/user-attachments/assets/79b91972-3d3e-4f0b-82e8-a546a29beb63)
 
