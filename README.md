@@ -8,7 +8,7 @@ A mini project belonging to group 5 about Forex Transaction Banking. The workflo
 ## Database Schema
 
 This is Kelompok 5's database schema
-<img src="https://gist.github.com/user-attachments/assets/8580e49a-51de-4877-a664-bb404066886a" alt="Gambar 3" width="800">
+![BJB Mini Project - Transaction Foreign Exchange Transaction](https://github.com/user-attachments/assets/d75264b5-425d-4202-a9c1-7b8b1038fa5c)
 
 
 
