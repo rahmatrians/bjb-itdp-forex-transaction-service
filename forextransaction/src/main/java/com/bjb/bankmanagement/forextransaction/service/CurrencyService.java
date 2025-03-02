@@ -102,13 +102,13 @@ public class CurrencyService {
             response = TransactionHistoryDto.builder()
                     .transactionHistories(transactions)
                     .rc(ResponseCode.SUCCESS.getCode())
-                    .rcDescription(ObjectUtils.isEmpty(transactions) ? "Data not found" : "Successfully")
+                    .rcDescription(ObjectUtils.isEmpty(transactions) ? "History transaction not found" : "Successfully")
                     .build();
         } catch (Exception e) {
             response = TransactionHistoryDto.builder()
                     .transactionHistories(transactions)
                     .rc(ResponseCode.GENERAL_ERROR.getCode())
-                    .rcDescription("General Error")
+                    .rcDescription(errMessage.isEmpty() ? "General Error" : errMessage)
                     .build();
             log.error("Error : {}" + e.getMessage(), e);
         }
