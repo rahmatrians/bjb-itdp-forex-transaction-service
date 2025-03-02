@@ -34,21 +34,20 @@ public class UserProfileController {
     }
 
     @PutMapping("/update/user")
-    public ResponseEntity<UpdateUserRequestDto> updateUser(
+    public ResponseEntity<GetUpdateUserDto> updateUser(
             @RequestParam String email,
             @RequestBody UpdateUserRequestDto request) {
 
-        String response = userProfileService.updateUser(email, request);
-        UpdateUserRequestDto responseDto = new UpdateUserRequestDto();
+        GetUpdateUserDto response = userProfileService.updateUser(email, request);
 
-        if (response.equals("User profile and authentication updated successfully")) {
-            responseDto.setRc(ResponseCode.SUCCESS.getCode());
-            responseDto.setMessage(response);
-            return ResponseEntity.status(ResponseStatus.OK.getStatus()).body(responseDto);
+        if (response.getRc().equals(ResponseCode.SUCCESS.getCode())) {
+            return ResponseEntity
+                    .status(ResponseStatus.OK.getStatus())
+                    .body(response);
         } else {
-            responseDto.setRc(ResponseCode.GENERAL_ERROR.getCode());
-            responseDto.setMessage(response);
-            return ResponseEntity.status(ResponseStatus.NOT_FOUND.getStatus()).body(responseDto);
+            return ResponseEntity
+                    .status(ResponseStatus.NOT_FOUND.getStatus())
+                    .body(response);
         }
     }
 }
