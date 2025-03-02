@@ -9,7 +9,7 @@ A brief description of what this project does and who it's for
 ## Database Schema
 
 This is Kelompok 5's database schema
-![App Screenshot](https://prnt.sc/fOLDtbm7t5Li)
+<img src="https://prnt.sc/fOLDtbm7t5Li" alt="Database Schema" width="800">
 
 
 
