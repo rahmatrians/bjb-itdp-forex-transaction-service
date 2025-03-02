@@ -4,6 +4,14 @@
 A mini project belonging to group 5 about Forex Transaction Banking. The workflow of this system consists of creating users, updating users, displaying currency, balances, until viewing the history of existing transactions.
 
 
+## Authors from Kelompok 5
+
+- [@rahmatrians](https://github.com/rahmatrians) (Rahmat Riansyah)
+- [@alberderry](https://github.com/alberderry) (Alber Derry Asher)
+- [@ilhampraja](https://github.com/ilhampraja) (Muhammad Ilham Makarim)
+- [@snkhomaria](https://github.com/snkhomaria) (Siti Nurkhomaria)
+
+
 
 ## Database Schema
 
@@ -72,15 +80,4 @@ Testing documentation can see in this link : https://docs.google.com/spreadsheet
 ##
 ![95bbff42-a429-49a1-a3dc-da3d6b468df9](https://github.com/user-attachments/assets/79b91972-3d3e-4f0b-82e8-a546a29beb63)
 
-
-
-
-
-
-## Authors
-
-- [@rahmatrians](https://github.com/rahmatrians) (Rahmat Riansyah)
-- [@alberderry](https://github.com/alberderry) (Alber Derry Asher)
-- [@ilhampraja](https://github.com/ilhampraja) (Muhammad Ilham Makarim)
-- [@snkhomaria](https://github.com/snkhomaria) (Siti Nurkhomaria)
 
