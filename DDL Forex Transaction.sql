@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS user_profiles CASCADE;
 DROP TABLE IF EXISTS user_authentications CASCADE;
 DROP TABLE IF EXISTS currencies CASCADE;
