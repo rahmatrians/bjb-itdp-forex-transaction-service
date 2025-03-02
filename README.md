@@ -28,7 +28,8 @@ This is Kelompok 5's database schema
 ## Testing Documentation
 
 Testing documentation can see in this link https://docs.google.com/spreadsheets/d/1InM8mSTJg7JvROlWrrI2VejrxDKQBknSerZmKWa3410/edit?gid=0#gid=0
-<br>
+##
+##
 ![95bbff42-a429-49a1-a3dc-da3d6b468df9](https://github.com/user-attachments/assets/79b91972-3d3e-4f0b-82e8-a546a29beb63)
 
 
