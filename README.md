@@ -38,6 +38,6 @@ Testing documentation can see in this link https://docs.google.com/spreadsheets/
 ## Authors
 
 - [@rahmatrians](https://github.com/rahmatrians) (Rahmat Riansyah)
-- [@alberderry](https://github.com/alberderry)
-- [@ilhampraja](https://github.com/ilhampraja)
-- [@snkhomaria](https://github.com/snkhomaria)
+- [@alberderry](https://github.com/alberderry) (Alber Derry Asher)
+- [@ilhampraja](https://github.com/ilhampraja) (Muhammad Ilham Makarim)
+- [@snkhomaria](https://github.com/snkhomaria) (Siti Nurkhomaria)
