@@ -13,8 +13,21 @@ This is Kelompok 5's database schema
 
 
 ## API Documentation
-![a5d4b43a-96bc-4514-b9dd-7da0f1280192](https://github.com/user-attachments/assets/f1087541-63ed-45cc-8f63-b3e87a3b95d0)
+List API Documentation : ![a5d4b43a-96bc-4514-b9dd-7da0f1280192](https://github.com/user-attachments/assets/f1087541-63ed-45cc-8f63-b3e87a3b95d0)
 
+
+Detail API Documentation :
+![aac77d29-6de6-4c35-bcfc-c9a98130985c](https://github.com/user-attachments/assets/aac77d29-6de6-4c35-bcfc-c9a98130985c)
+
+1. POST /create/user
+3. PUT /update/user
+3, GET /history/{accountNumber}
+4. GET /currencies
+5. GET /balances/{userProfileId}
+6. GET /balances/{userProfileId}/{accountNumber}
+7. POST /transfer/execute
+8. POST /forexrate
+9. PUT /update/currency
 
 
 ## External API Reference (Foreign Exchange Rate)
@@ -27,7 +40,8 @@ This is Kelompok 5's database schema
 
 ## Testing Documentation
 
-Testing documentation can see in this link https://docs.google.com/spreadsheets/d/1InM8mSTJg7JvROlWrrI2VejrxDKQBknSerZmKWa3410/edit?gid=0#gid=0
+Testing documentation can see in this link : https://docs.google.com/spreadsheets/d/1InM8mSTJg7JvROlWrrI2VejrxDKQBknSerZmKWa3410/edit?gid=0#gid=0
+##
 ##
 ![95bbff42-a429-49a1-a3dc-da3d6b468df9](https://github.com/user-attachments/assets/79b91972-3d3e-4f0b-82e8-a546a29beb63)
 
@@ -42,3 +56,4 @@ Testing documentation can see in this link https://docs.google.com/spreadsheets/
 - [@alberderry](https://github.com/alberderry) (Alber Derry Asher)
 - [@ilhampraja](https://github.com/ilhampraja) (Muhammad Ilham Makarim)
 - [@snkhomaria](https://github.com/snkhomaria) (Siti Nurkhomaria)
+
