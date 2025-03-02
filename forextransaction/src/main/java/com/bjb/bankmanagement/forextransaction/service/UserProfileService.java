@@ -1,17 +1,26 @@
 package com.bjb.bankmanagement.forextransaction.service;
 
+import com.bjb.bankmanagement.forextransaction.constant.ResponseCode;
+import com.bjb.bankmanagement.forextransaction.dto.GetCreateUserDto;
+import com.bjb.bankmanagement.forextransaction.dto.ReqCreateUserDto;
 import com.bjb.bankmanagement.forextransaction.dto.UpdateUserRequestDto;
+import com.bjb.bankmanagement.forextransaction.entity.UserAccounts;
+import com.bjb.bankmanagement.forextransaction.entity.UserAuthentications;
 import com.bjb.bankmanagement.forextransaction.entity.UserProfiles;
-import com.bjb.bankmanagement.forextransaction.entity.UserAuthentication;
+import com.bjb.bankmanagement.forextransaction.repository.AccountRepository;
 import com.bjb.bankmanagement.forextransaction.repository.UserProfileRepository;
 import com.bjb.bankmanagement.forextransaction.repository.UserAuthenticationRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserProfileService {
 
@@ -21,32 +30,110 @@ public class UserProfileService {
     @Autowired
     private UserAuthenticationRepository userAuthenticationRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+
+
+    @Transactional
+    public GetCreateUserDto createUser(ReqCreateUserDto request) {
+        String errMessage = "";
+        GetCreateUserDto response = new GetCreateUserDto();
+
+        try {
+            Optional<UserAuthentications> isUserExist = userAuthenticationRepository.findByEmail(request.getEmail());
+
+            if (isUserExist.isPresent()) {
+                errMessage = "Email have registered, please use other email";
+                throw  new Exception(errMessage);
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            UserProfiles userProfile = UserProfiles.builder()
+                    .fullname(request.getFullname())
+                    .gender(request.getGender())
+                    .placeOfBirth(request.getPlaceOfBirth())
+                    .dateOfBirth(LocalDate.parse(request.getDateOfBirth(), formatter))
+                    .address(request.getAddress())
+                    .province(request.getProvince())
+                    .city(request.getCity())
+                    .district(request.getDistrict())
+                    .subdistrict(request.getSubdistrict())
+                    .postalCode(request.getPostalCode())
+                    .identityNumber(request.getIdentityNumber())
+                    .identityType(request.getIdentityType())
+                    .phoneNumber(request.getPhoneNumber())
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            userProfile = userProfileRepository.saveAndFlush(userProfile);
+
+            UserAccounts userAccount = UserAccounts.builder()
+                    .userProfileId(userProfile.getId())
+                    .accountNumber(request.getAccountNumber())
+                    .currencyCode(request.getCurrencyCode())
+                    .balance(request.getBalance())
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            accountRepository.saveAndFlush(userAccount);
+
+            UserAuthentications userAuth = UserAuthentications.builder()
+                    .userProfileId(userProfile.getId())
+                    .email(request.getEmail())
+                    .password(request.getPassword())
+                    .pin(request.getPin())
+                    .createdAt(LocalDateTime.now())
+                    .build();
+            userAuthenticationRepository.saveAndFlush(userAuth);
+
+
+            response = GetCreateUserDto.builder()
+                    .user(request)
+                    .rc(ResponseCode.SUCCESS.getCode())
+                    .rcDescription("User created successfully")
+                    .build();
+
+        }catch (Exception e) {
+            response = GetCreateUserDto.builder()
+                    .user(request)
+                    .rc(ResponseCode.GENERAL_ERROR.getCode())
+                    .rcDescription("General Error")
+                    .build();
+            log.error("Error : {}" + e.getMessage(), e);
+        }
+
+        return response;
+    }
+
     public String updateUser(String email, UpdateUserRequestDto request) {
-        Optional<UserAuthentication> authOptional = userAuthenticationRepository.findByEmail(email);
+        Optional<UserAuthentications> authOptional = userAuthenticationRepository.findByEmail(email);
 
         if (authOptional.isPresent()) {
-            UserAuthentication auth = authOptional.get();
-            UserProfiles user = auth.getUserProfiles();
+            UserAuthentications auth = authOptional.get();
 
-            if (user != null) {
-                if (request.getFullname() != null) user.setFullname(request.getFullname());
-                if (request.getGender() != null) user.setGender(request.getGender()); // Sekarang disimpan sebagai String
-                if (request.getPlaceOfBirth() != null) user.setPlaceOfBirth(request.getPlaceOfBirth());
-                if (request.getDateOfBirth() != null) user.setDateOfBirth(LocalDate.parse(request.getDateOfBirth()));
-                if (request.getProvince() != null) user.setProvince(request.getProvince());
-                if (request.getCity() != null) user.setCity(request.getCity());
-                if (request.getDistrict() != null) user.setDistrict(request.getDistrict());
-                if (request.getSubdistrict() != null) user.setSubdistrict(request.getSubdistrict());
-                if (request.getPostalCode() != null) user.setPostalCode(request.getPostalCode());
+            Optional<UserProfiles> user = userProfileRepository.findById(auth.getUserProfileId());
 
-                // Sekarang `identityType` adalah String, jadi langsung disimpan
-                if (request.getIdentityType() != null) user.setIdentityType(request.getIdentityType());
+            if (user.isPresent()) {
+                if (request.getFullname() != null) user.get().setFullname(request.getFullname());
+                if (request.getGender() != null) user.get().setGender(request.getGender());
+                if (request.getPlaceOfBirth() != null) user.get().setPlaceOfBirth(request.getPlaceOfBirth());
 
-                if (request.getIdentityNumber() != null) user.setIdentityNumber(request.getIdentityNumber());
-                if (request.getPhoneNumber() != null) user.setPhoneNumber(request.getPhoneNumber());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                if (request.getDateOfBirth() != null) user.get().setDateOfBirth(LocalDate.parse(request.getDateOfBirth(), formatter));
 
-                user.setUpdatedAt(LocalDateTime.now());
-                userProfileRepository.save(user);
+                if (request.getProvince() != null) user.get().setProvince(request.getProvince());
+                if (request.getCity() != null) user.get().setCity(request.getCity());
+                if (request.getDistrict() != null) user.get().setDistrict(request.getDistrict());
+                if (request.getSubdistrict() != null) user.get().setSubdistrict(request.getSubdistrict());
+                if (request.getPostalCode() != null) user.get().setPostalCode(request.getPostalCode());
+
+                if (request.getIdentityType() != null) user.get().setIdentityType(request.getIdentityType());
+
+                if (request.getIdentityNumber() != null) user.get().setIdentityNumber(request.getIdentityNumber());
+                if (request.getPhoneNumber() != null) user.get().setPhoneNumber(request.getPhoneNumber());
+
+                user.get().setUpdatedAt(LocalDateTime.now());
+                userProfileRepository.save(user.get());
 
                 if (request.getPassword() != null) auth.setPassword(request.getPassword());
                 if (request.getPin() != null) auth.setPin(request.getPin());

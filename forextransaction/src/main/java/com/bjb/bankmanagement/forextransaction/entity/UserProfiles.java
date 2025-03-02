@@ -31,7 +31,7 @@ public class UserProfiles {
     private String placeOfBirth;
 
     @Column(name = "date_of_birth", nullable = false)
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "address", nullable = false)
     private String address;

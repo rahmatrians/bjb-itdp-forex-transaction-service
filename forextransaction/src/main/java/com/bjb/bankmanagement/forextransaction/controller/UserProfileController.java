@@ -2,7 +2,7 @@ package com.bjb.bankmanagement.forextransaction.controller;
 
 import com.bjb.bankmanagement.forextransaction.constant.ResponseCode;
 import com.bjb.bankmanagement.forextransaction.constant.ResponseStatus;
-import com.bjb.bankmanagement.forextransaction.dto.UpdateUserRequestDto;
+import com.bjb.bankmanagement.forextransaction.dto.*;
 import com.bjb.bankmanagement.forextransaction.dto.UpdateUserRequestDto;
 import com.bjb.bankmanagement.forextransaction.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,23 @@ public class UserProfileController {
 
     @Autowired
     private UserProfileService userProfileService;
+
+
+
+    @PostMapping("/create/user")
+    public ResponseEntity<GetCreateUserDto> createUser(@RequestBody ReqCreateUserDto request) {
+        GetCreateUserDto response = userProfileService.createUser(request);
+
+        if (response.getRc().equals(ResponseCode.SUCCESS.getCode())) {
+            return ResponseEntity
+                    .status(ResponseStatus.OK.getStatus())
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(ResponseStatus.NOT_FOUND.getStatus())
+                    .body(response);
+        }
+    }
 
     @PutMapping("/update/user")
     public ResponseEntity<UpdateUserRequestDto> updateUser(
