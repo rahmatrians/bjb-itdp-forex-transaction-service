@@ -9,7 +9,7 @@ A brief description of what this project does and who it's for
 ## Database Schema
 
 This is Kelompok 5's database schema
-<img src="https://prnt.sc/fOLDtbm7t5Li" alt="Database Schema" width="800">
+![BJB Mini Project - Transaction Foreign Exchange Transaction](https://gist.github.com/user-attachments/assets/8580e49a-51de-4877-a664-bb404066886a)
 
 
 
