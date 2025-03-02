@@ -37,7 +37,7 @@ Testing documentation can see in this link https://docs.google.com/spreadsheets/
 
 ## Authors
 
-- [@rahmatrians](https://github.com/rahmatrians)
+- [@rahmatrians](https://github.com/rahmatrians) (Rahmat Riansyah)
 - [@alberderry](https://github.com/alberderry)
 - [@ilhampraja](https://github.com/ilhampraja)
 - [@snkhomaria](https://github.com/snkhomaria)
