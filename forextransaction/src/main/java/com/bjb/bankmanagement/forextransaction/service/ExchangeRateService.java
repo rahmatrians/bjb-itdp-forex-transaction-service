@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -37,7 +39,7 @@ public class ExchangeRateService {
         String url;
 
         try {
-            url = forexRateApiUrl+apiKeyForexRateApi+"/pair/"+request.getFromCurrencyCode()+"/"+request.getToCurrencyCode()+"/"+request.getAmount();
+            url = forexRateApiUrl + apiKeyForexRateApi + "/pair/" + request.getFromCurrencyCode() + "/" + request.getToCurrencyCode() + "/" + request.getAmount();
             var getForexRates = restTemplate.getForEntity(url, ForexRateCompareDto.class).getBody();
             log.info(getForexRates.toString());
 
@@ -75,7 +77,30 @@ public class ExchangeRateService {
             }
 
             response.setRc(ResponseCode.SUCCESS.getCode());
-            response.setRcDescription(ObjectUtils.isEmpty(data) ? "Data not found" : "Successfully");
+            response.setRcDescription(ObjectUtils.isEmpty(data) ? "Invalid currency code" : "Successfully");
+        }catch (HttpClientErrorException | HttpServerErrorException e) {
+            // forex rate data from local database
+            data = exchangeRateRepository.findByFromCurrencyCodeAndToCurrencyCode(
+                    request.getFromCurrencyCode(),
+                    request.getToCurrencyCode()
+            );
+
+            if (!ObjectUtils.isEmpty(data)) {
+                forexAmount = request.getAmount() * data.getExchangeRate();
+
+                response = GetExchangeRateDto.builder()
+                        .exchangeRates(ExchangeRateCustom.builder()
+                                .fromCurrencyCode(data.getFromCurrencyCode())
+                                .toCurrencyCode(data.getToCurrencyCode())
+                                .exchangeRate(data.getExchangeRate())
+                                .rateDate(data.getRateDate())
+                                .build())
+                        .resultAmount(forexAmount)
+                        .build();
+            }
+
+            response.setRc(ResponseCode.SUCCESS.getCode());
+            response.setRcDescription(ObjectUtils.isEmpty(data) ? "Invalid currency code" : "Successfully");
         } catch (Exception e) {
             response.setRc(ResponseCode.GENERAL_ERROR.getCode());
             response.setRcDescription("General Error");
