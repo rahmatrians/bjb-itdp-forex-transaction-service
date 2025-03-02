@@ -12,26 +12,26 @@ This is Kelompok 5's database schema
 
 
 
-
 ## API Documentation
-![a5d4b43a-96bc-4514-b9dd-7da0f1280192](https://gist.github.com/user-attachments/assets/949fc9e3-a47e-48e1-b36c-1cb2d8dd6f9b)
+![a5d4b43a-96bc-4514-b9dd-7da0f1280192](https://github.com/user-attachments/assets/f1087541-63ed-45cc-8f63-b3e87a3b95d0)
 
 
 
-## API Reference
+## External API Reference (Foreign Exchange Rate)
 
 
 ```http
   https://www.exchangerate-api.com/
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `accountNumber` | `string` | **Required**. User Account Number |
+
 ## Testing Documentation
 
-Testing documentation can see in thin link [1InM8mSTJg7JvROlWrrI2VejrxDKQBknSerZmKWa3410/edit?gid=0#gid=0] 
-[]
+Testing documentation can see in this link https://docs.google.com/spreadsheets/d/1InM8mSTJg7JvROlWrrI2VejrxDKQBknSerZmKWa3410/edit?gid=0#gid=0
+![95bbff42-a429-49a1-a3dc-da3d6b468df9](https://github.com/user-attachments/assets/79b91972-3d3e-4f0b-82e8-a546a29beb63)
+
+
+
 
 
 
