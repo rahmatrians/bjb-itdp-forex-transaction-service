@@ -54,13 +54,13 @@ public class TransationHistoryService {
             toUserAccount =  accountRepository.findByAccountNumber(request.getToAccountNumber());
 
             if (ObjectUtils.isEmpty(fromUserAccount) && ObjectUtils.isEmpty(toUserAccount)) {
-                errMessage = "User account sender and benefiiary doesn't found";
+                errMessage = "User account sender and beneficiary doesn't found";
                 throw new Exception(errMessage);
             } else if (ObjectUtils.isEmpty(fromUserAccount)) {
                 errMessage = "User account sender doesn't found";
                 throw new Exception(errMessage);
             } else if (ObjectUtils.isEmpty(toUserAccount)) {
-                errMessage = "User account benefiiary doesn't found";
+                errMessage = "User account beneficiary doesn't found";
                 throw new Exception(errMessage);
             }
 
