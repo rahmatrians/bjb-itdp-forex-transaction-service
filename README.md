@@ -73,6 +73,9 @@ Detail API Documentation :
   https://www.exchangerate-api.com/
 ```
 
+![image](https://github.com/user-attachments/assets/8bb44a46-e2a2-4ed3-aeef-f3f757c2074f)
+
+
 
 ## Testing Documentation
 
